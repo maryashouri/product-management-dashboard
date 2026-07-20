@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "MacBook Pro M3",
+      "sku": "MBP-M3-001",
+      "category": "Electronics",
+      "status": "active",
+      "price": 2499,
+      "weight": 2.1,
+      "description": "Apple laptop"
+    }
+  ]
+}
