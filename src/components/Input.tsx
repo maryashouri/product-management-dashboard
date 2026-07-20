@@ -26,7 +26,12 @@ const inputVariants = cva("w-full rounded-md border transition outline-none", {
 type InputProps = ComponentPropsWithoutRef<"input"> &
   VariantProps<typeof inputVariants>;
 
-export function Input({ className, size, intent, ...props }: InputProps) {
+export default function Input({
+  className,
+  size,
+  intent,
+  ...props
+}: InputProps) {
   return (
     <input
       className={cn(
