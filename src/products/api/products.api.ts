@@ -21,5 +21,9 @@ export async function getProducts({
     },
   });
 
+  console.log("AXIOS RESPONSE:", response);
+
+  console.log("AXIOS DATA:", response.data);
+
   return response.data;
 }

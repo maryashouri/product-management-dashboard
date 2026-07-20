@@ -1,12 +1,14 @@
 import { useSearchParams } from "react-router-dom";
 
-import EmptyState from "@/components/EmptyState";
-import LoadingSpinner from "@/components/Spinner";
-import Pagination from "./components/Pagination";
 import ProductTable from "./components/ProductTable";
+import Pagination from "./components/Pagination";
+
+import EmptyState from "@/components/EmptyState";
+import Spinner from "@/components/Spinner";
+
 import { useProducts } from "./hooks/useProducts";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 2;
 
 function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,40 +20,40 @@ function ProductsPage() {
     limit: PAGE_SIZE,
   });
 
-  const handlePageChange = (newPage: number) => {
+  function handlePageChange(newPage: number) {
     const params = new URLSearchParams(searchParams);
 
     params.set("page", String(newPage));
 
     setSearchParams(params);
-  };
+  }
 
   if (isPending) {
-    return <LoadingSpinner />;
+    return <Spinner />;
   }
 
   if (isError) {
     return (
       <EmptyState
-        title="Unable to load products"
-        description="Something went wrong while fetching products."
+        title="Something went wrong"
+        description="Unable to load products."
       />
     );
   }
 
-  if (!data || data.data.length === 0) {
+  if (!data?.data.length) {
     return <EmptyState />;
   }
 
   return (
-    <main className="mx-auto max-w-7xl p-8">
-      <h1 className="mb-6 text-3xl font-bold">Product Management Dashboard</h1>
+    <main className="mx-auto max-w-7xl p-6">
+      <h1 className="mb-6 text-3xl font-bold">Products</h1>
 
       <ProductTable products={data.data} />
 
       <Pagination
         currentPage={page}
-        totalPages={data.totalPages}
+        totalPages={data.pages}
         onPageChange={handlePageChange}
       />
     </main>

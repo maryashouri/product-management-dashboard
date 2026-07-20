@@ -9,6 +9,26 @@
       "price": 2499,
       "weight": 2.1,
       "description": "Apple laptop"
+    },
+    {
+      "id": "2",
+      "name": "iPhone 15",
+      "sku": "IPH-15-001",
+      "category": "Electronics",
+      "status": "active",
+      "price": 999,
+      "weight": 0.2,
+      "description": "Apple phone"
+    },
+    {
+      "id": "3",
+      "name": "Office Chair",
+      "sku": "CHAIR-001",
+      "category": "Furniture",
+      "status": "inactive",
+      "price": 300,
+      "weight": 12,
+      "description": "Office chair"
     }
   ]
 }

@@ -29,6 +29,7 @@ export interface Product {
 
 export interface ProductsQueryParams {
   page: number;
+
   limit: number;
 
   search?: string;
@@ -41,11 +42,15 @@ export interface ProductsQueryParams {
 export interface ProductsResponse {
   data: Product[];
 
-  page: number;
+  first: number;
 
-  limit: number;
+  prev: number | null;
 
-  total: number;
+  next: number | null;
 
-  totalPages: number;
+  last: number;
+
+  pages: number;
+
+  items: number;
 }

@@ -1,3 +1,5 @@
+import ProductRow from "./ProductRow";
+
 import type { Product } from "../types/product";
 
 interface ProductTableProps {
@@ -6,33 +8,29 @@ interface ProductTableProps {
 
 function ProductTable({ products }: ProductTableProps) {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>SKU</th>
-          <th>Category</th>
-          <th>Status</th>
-          <th>Price</th>
-        </tr>
-      </thead>
+    <div className="overflow-hidden rounded-lg border">
+      <table className="w-full">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-4 py-3 text-left">Name</th>
 
-      <tbody>
-        {products.map((product) => (
-          <tr key={product.id}>
-            <td>{product.name}</td>
+            <th className="px-4 py-3 text-left">SKU</th>
 
-            <td>{product.sku}</td>
+            <th className="px-4 py-3 text-left">Category</th>
 
-            <td>{product.category}</td>
+            <th className="px-4 py-3 text-left">Price</th>
 
-            <td>{product.status}</td>
-
-            <td>${product.price}</td>
+            <th className="px-4 py-3 text-left">Status</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {products.map((product) => (
+            <ProductRow key={product.id} product={product} />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
