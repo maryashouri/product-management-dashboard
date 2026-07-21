@@ -4,18 +4,28 @@ import ProductFilters from "./components/ProductFilters";
 import ProductTable from "./components/ProductTable";
 import Pagination from "./components/Pagination";
 
-import EmptyState from "@/components/EmptyState";
-import Spinner from "@/components/Spinner";
+import EmptyState from "@/components/ui/EmptyState";
+import Spinner from "@/components/ui/Spinner";
 
 import { useProducts } from "./hooks/useProducts";
 import { useDebounce } from "@/hooks/useDebounce";
 
-import type { ProductStatus } from "./types/product";
+import type { Product, ProductStatus } from "./types/product";
+import { useState } from "react";
+import { Button } from "@/components/ui/Button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const PAGE_SIZE = 10;
 
 function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const page = Number(searchParams.get("page") ?? 1);
 
@@ -71,6 +81,14 @@ function ProductsPage() {
   return (
     <main className="mx-auto max-w-7xl p-6">
       <h1 className="mb-6 text-3xl font-bold">Products</h1>
+      <Button
+        onClick={() => {
+          setSelectedProduct(null);
+          setIsDialogOpen(true);
+        }}
+      >
+        Add Product
+      </Button>
 
       <ProductFilters
         search={search}
@@ -99,6 +117,22 @@ function ProductsPage() {
 
         onPageChange={handlePageChange}
       />
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>
+              {selectedProduct ? "Edit Product" : "Add Product"}
+            </DialogTitle>
+          </DialogHeader>
+
+          {/* <ProductForm
+            product={selectedProduct}
+            onSuccess={() => {
+              setIsDialogOpen(false);
+            }}
+          /> */}
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }

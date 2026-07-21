@@ -1,5 +1,5 @@
-import Input from "@/components/Input";
-import Select from "@/components/Select";
+import Input from "@/components/ui/Input";
+import Select from "@/components/ui/Select";
 import { PRODUCT_CATEGORIES, PRODUCT_STATUSES } from "../constants";
 
 interface ProductFiltersProps {
