@@ -1,75 +1,246 @@
-# React + TypeScript + Vite
+# Product Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A product management dashboard built with React, TypeScript, Vite, TanStack Query, React Hook Form, Zod, Axios, and Tailwind CSS.
 
-Currently, two official plugins are available:
+The application allows users to:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- View products with pagination
+- Search and filter products by category and status
+- Persist filters and pagination state in URL query parameters
+- Create and edit products with strict validation
+- Validate SKU uniqueness asynchronously
+- Delete products with optimistic updates
+- Synchronize UI state efficiently using React Query cache updates
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- TypeScript
+- Vite
+- TanStack Query
+- React Hook Form
+- Zod
+- Axios
+- React Router
+- Tailwind CSS
+- shadcn/ui
+- json-server (Mock API)
 
-## Expanding the ESLint configuration
+# Installation & Running
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Install dependencies
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Run development server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm run dev
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Application will be available at:
 
 ```
+http://localhost:5173
+```
+
+## Run Mock API
+
+This project uses json-server as a mock backend.
+
+Run:
+
+```bash
+npm run server
+```
+
+API will be available at:
+
+```
+http://localhost:3000
+```
+
+## Available Scripts
+
+### Development
+
+```bash
+npm run dev
+```
+
+Starts the Vite development server.
+
+### Mock API
+
+```bash
+npm run server
+```
+
+Starts json-server.
+
+### Production Build
+
+```bash
+npm run build
+```
+
+Creates an optimized production build.
+
+# Folder Structure
+
+```
+src
+├── api
+│   └── axios.ts
+│
+├── components
+│   └── ui
+│       ├── Button.tsx
+│       ├── Input.tsx
+│       └── Dialog.tsx
+│
+├── features
+│   └── products
+│       ├── api
+│       │   └── products.api.ts
+│       │
+│       ├── components
+│       │   ├── ProductForm.tsx
+│       │   ├── ProductTable.tsx
+│       │   ├── ProductFilters.tsx
+│       │   └── DeleteProductDialog.tsx
+│       │
+│       ├── hooks
+│       │   ├── useProducts.ts
+│       │   ├── useCreateProduct.ts
+│       │   ├── useUpdateProduct.ts
+│       │   └── useDeleteProduct.ts
+│       │
+│       ├── product.schema.ts
+│       ├── constants.ts
+│       │
+│       └── types
+│           └── product.ts
+│
+├── pages
+│   └── ProductsPage.tsx
+│
+├── providers
+│   └── QueryProvider.tsx
+│
+├── router
+│   └── router.tsx
+│
+└── main.tsx
+```
+
+# Architectural Decisions
+
+## Feature-based Architecture
+
+The project uses a feature-based folder structure.
+
+Instead of grouping files by type, all product-related code is located inside:
+
+```
+features/products
+```
+
+This includes:
+
+- Components
+- Hooks
+- API services
+- Types
+- Validation schemas
+
+### Why?
+
+This approach improves:
+
+- Scalability
+- Maintainability
+- Separation of business logic
+- Easier feature ownership
+
+---
+
+## Server State Management with TanStack Query
+
+TanStack Query is used for managing server state.
+
+For example, when updating a product:
+
+- The existing cache is updated immediately
+- Only the changed product is replaced
+- The entire product list is not refetched
+
+---
+
+## Form Management and Validation
+
+React Hook Form is used together with Zod.
+
+Validation includes:
+
+### Standard Validation
+
+- Required fields
+- String length limits
+- Numeric validation
+
+### Cross-field Validation
+
+Example:
+
+```
+If category is Electronics,
+weight must be greater than zero.
+```
+
+### Asynchronous Validation
+
+SKU uniqueness is checked against the API before submitting the form.
+
+---
+
+## URL-based Filter State
+
+Search, category, status, and pagination are stored in URL query parameters.
+
+Example:
+
+```
+/products?page=2&category=Electronics&status=active
+```
+
+---
+
+## Optimistic Updates
+
+Mutation operations use optimistic updates.
+
+For update and delete:
+
+## Mock API
+
+The project uses json-server as a backend simulation.
+
+Because of this:
+
+- Authentication is not implemented
+- Backend validation is limited
+
+In a production application:
+
+- Authentication
+- Authorization
+- Server-side validation
+
+would be handled by backend services.
+
+# Conclusion
+
+This project demonstrates a scalable React architecture with strong TypeScript typing, efficient server state management, form validation, optimistic updates, and cache synchronization strategies suitable for production-level applications.
