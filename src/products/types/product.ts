@@ -5,7 +5,7 @@ export const PRODUCT_CATEGORIES = [
   "Furniture",
   "Books",
   "Clothing",
-];
+] as const;
 
 export type ProductCategory = (typeof PRODUCT_CATEGORIES)[number];
 
@@ -54,3 +54,5 @@ export interface ProductsResponse {
 
   items: number;
 }
+
+export type ProductPayload = Omit<Product, "id">;

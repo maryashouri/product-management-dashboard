@@ -1,10 +1,13 @@
+import { Button } from "@/components/ui/Button";
 import type { Product } from "../types/product";
 
 interface ProductRowProps {
   product: Product;
+  onEdit: (product: Product) => void;
+  onDelete: (product: Product) => void;
 }
 
-function ProductRow({ product }: ProductRowProps) {
+function ProductRow({ product, onEdit, onDelete }: ProductRowProps) {
   return (
     <tr className="border-b last:border-none">
       <td className="px-4 py-3">{product.name}</td>
@@ -25,6 +28,19 @@ function ProductRow({ product }: ProductRowProps) {
         >
           {product.status}
         </span>
+      </td>
+      <td>
+        <Button variant="outline" size="sm" onClick={() => onEdit(product)}>
+          Edit
+        </Button>
+        <Button
+          size="sm"
+          variant="destructive"
+          onClick={() => onDelete(product)}
+          className="mx-2"
+        >
+          Delete
+        </Button>
       </td>
     </tr>
   );

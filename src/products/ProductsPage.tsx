@@ -10,7 +10,7 @@ import Spinner from "@/components/ui/Spinner";
 import { useProducts } from "./hooks/useProducts";
 import { useDebounce } from "@/hooks/useDebounce";
 
-import type { Product, ProductStatus } from "./types/product";
+import type { Product, ProductCategory, ProductStatus } from "./types/product";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import {
@@ -19,6 +19,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { ProductForm } from "./components/ ProductForm";
+import DeleteProductModal from "./components/DeleteProductModal";
 
 const PAGE_SIZE = 10;
 
@@ -26,12 +28,13 @@ function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [productDelete, setProductDelete] = useState<Product | null>(null);
 
   const page = Number(searchParams.get("page") ?? 1);
 
   const search = searchParams.get("search") ?? "";
 
-  const category = searchParams.get("category");
+  const category = searchParams.get("category") as ProductCategory;
 
   const status = searchParams.get("status") as ProductStatus;
 
@@ -82,12 +85,13 @@ function ProductsPage() {
     <main className="mx-auto max-w-7xl p-6">
       <h1 className="mb-6 text-3xl font-bold">Products</h1>
       <Button
+        className="mb-4"
         onClick={() => {
           setSelectedProduct(null);
           setIsDialogOpen(true);
         }}
       >
-        Add Product
+        + Add Product
       </Button>
 
       <ProductFilters
@@ -105,7 +109,16 @@ function ProductsPage() {
       />
 
       {data?.data.length ? (
-        <ProductTable products={data.data} />
+        <ProductTable
+          products={data.data}
+          onEdit={(product) => {
+            setSelectedProduct(product);
+            setIsDialogOpen(true);
+          }}
+          onDelete={(product) => {
+            setProductDelete(product);
+          }}
+        />
       ) : (
         <EmptyState />
       )}
@@ -125,14 +138,24 @@ function ProductsPage() {
             </DialogTitle>
           </DialogHeader>
 
-          {/* <ProductForm
+          <ProductForm
             product={selectedProduct}
             onSuccess={() => {
               setIsDialogOpen(false);
+              setSelectedProduct(null);
             }}
-          /> */}
+          />
         </DialogContent>
       </Dialog>
+      <DeleteProductModal
+        open={!!productDelete}
+        product={productDelete}
+        onOpenChange={(open) => {
+          if (!open) {
+            setProductDelete(null);
+          }
+        }}
+      />
     </main>
   );
 }

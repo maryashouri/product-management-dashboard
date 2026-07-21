@@ -25,8 +25,6 @@ export async function getProducts({
     },
   });
 
-  console.log("AXIOS RESPONSE:", response);
-
   return response.data;
 }
 
@@ -57,12 +55,17 @@ export async function deleteProduct(id: number): Promise<void> {
   await api.delete(`/products/${id}`);
 }
 
-export async function checkSkuExists(sku: string): Promise<boolean> {
+export async function checkSkuExists(
+  sku: string,
+  currentProductId?: number,
+): Promise<boolean> {
   const { data } = await api.get<Product[]>("/products", {
     params: {
       sku,
     },
   });
 
-  return data.length > 0;
+  const exists = data?.some((product) => product.id !== currentProductId);
+
+  return exists;
 }

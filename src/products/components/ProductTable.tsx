@@ -4,9 +4,11 @@ import type { Product } from "../types/product";
 
 interface ProductTableProps {
   products: Product[];
+  onEdit?: (product: Product) => void;
+  onDelete?: (product: Product) => void;
 }
 
-function ProductTable({ products }: ProductTableProps) {
+function ProductTable({ products, onEdit, onDelete }: ProductTableProps) {
   return (
     <div className="overflow-hidden rounded-lg border">
       <table className="w-full">
@@ -21,12 +23,18 @@ function ProductTable({ products }: ProductTableProps) {
             <th className="px-4 py-3 text-left">Price</th>
 
             <th className="px-4 py-3 text-left">Status</th>
+            <th className="px-4 py-3 text-left">Actions</th>
           </tr>
         </thead>
 
         <tbody>
           {products.map((product) => (
-            <ProductRow key={product.id} product={product} />
+            <ProductRow
+              key={product.id}
+              product={product}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
           ))}
         </tbody>
       </table>

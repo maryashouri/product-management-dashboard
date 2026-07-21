@@ -1,16 +1,6 @@
 {
   "products": [
     {
-      "id": "1",
-      "name": "MacBook Pro M3",
-      "sku": "MBP-M3-001",
-      "category": "Electronics",
-      "status": "active",
-      "price": 2499,
-      "weight": 2.1,
-      "description": "Apple laptop"
-    },
-    {
       "id": "2",
       "name": "iPhone 15",
       "sku": "IPH-15-001",
@@ -29,6 +19,57 @@
       "price": 300,
       "weight": 12,
       "description": "Office chair"
+    },
+    {
+      "name": "mac air",
+      "sku": "008",
+      "category": "Electronics",
+      "status": "active",
+      "price": 600,
+      "weight": 800,
+      "description": "",
+      "id": "7esb8aHBKhY"
+    },
+    {
+      "name": "test1",
+      "sku": "MBP-M3-001",
+      "category": "Books",
+      "status": "active",
+      "price": 4000,
+      "weight": 1000,
+      "description": "",
+      "id": "tiVhCn41eEs"
+    },
+    {
+      "name": "testtt",
+      "sku": "MBP-M3-001",
+      "category": "Furniture",
+      "status": "active",
+      "price": 1000,
+      "weight": 143,
+      "description": "",
+      "id": "LWxu4XyvkzI"
+    },
+    {
+      "name": "gggfg",
+      "sku": "ggfg",
+      "category": "Books",
+      "status": "active",
+      "price": 10,
+      "weight": 90,
+      "description": "hjjjjjjuuu",
+      "id": "m26HdJQy01s"
+    },
+    {
+      "name": "testtttt56",
+      "sku": "MBP-M3-00ii",
+      "category": "Books",
+      "status": "active",
+      "price": 10,
+      "weight": 89,
+      "description": "",
+      "id": "hSTnnPK7SLM"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
